@@ -1,7 +1,9 @@
 import { AlertOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
-import React from "react";
+import Profile from "./Profile";
+import React, { useState } from "react";
 
    export default function NavComponent({}) {
+      const [isOpen,setIsOpen]=useState(false);
       return (
          <div>
             <nav className='flex space-x-5 justify-between text-lg font-serif font-bold'>
@@ -16,10 +18,12 @@ import React from "react";
                                     <span className="relative bg-red-500 text-xs rounded items-center p-0.5 px-1 text-white">3</span>
                                  </div>
                               
-                              <div className="flex space-x-2 items-center">
-                                 <span className="rounded"><UserOutlined /></span>
+                              <div className="flex space-x-2 items-center cursor-pointer" onClick={()=>setIsOpen(!isOpen)}>
+                                 <span className="rounded" ><UserOutlined /></span>
                                  <span className="text-gray-800 text-sm mt-2">Ahmedin O</span>
+                                 {isOpen && <Profile/>}
                               </div>
+                            
                               
                               </div>
                      </nav>

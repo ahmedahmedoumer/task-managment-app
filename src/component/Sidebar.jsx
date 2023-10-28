@@ -5,8 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { DASHBOARD_SIDEBAR_LINKS } from "../utils/constants";
 
-const linkClasses =
-  "flex items-center gap-2 px-3 py-2 font-medium hover:no-underline h-14";
+const linkClasses ="flex items-center gap-2 px-3 py-2 font-medium hover:no-underline h-14";
 
 const Sidebar = () => {
   return (
@@ -38,13 +37,13 @@ function SidebarLink({ item }) {
       to={`/${item.path}`}
       className={classNames(
         pathname.includes(item.path)
-          ? "flex bg-gray-200 text-gray-950 rounded space-y-4 pr-60 rounded"
+          ? "flex bg-gray-200 text-gray-950 rounded space-y-4 pr-60 "
           : "text-white",
         linkClasses
       )}
     >
       <span className="text-xl">{item.icon}</span>
-      <span className=" hidden lg:inline-block mt-1">{item.label}</span>
+      <span >{item.label}</span>
     </Link>
   );
 }

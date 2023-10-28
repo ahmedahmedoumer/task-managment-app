@@ -2,6 +2,7 @@ import React from "react";
 import Projects from "./pages/projects/Projects";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SidebarContent  from "./component/mainContent/SidebarContent";
+import LoginComponent from "./component/LoginComponent";
 import AllTasks from "./pages/AllTasks/AllTasks";
 export function AllRoutes() {
   return <BrowserRouter>
@@ -9,7 +10,7 @@ export function AllRoutes() {
           <Route path='/' element={<SidebarContent />}/>
                <Route path='dashboard' element={<SidebarContent />}/>
                <Route path="projects" element={<Projects/>} />
-               <Route path='tasks' element={<SidebarContent />} />
+               <Route path='/tasks' element={<LoginComponent />} />
                <Route path='user-managment' element={<SidebarContent />} />
                <Route path='setting' element={<SidebarContent />} />
                <Route path='about' element={<SidebarContent />} />

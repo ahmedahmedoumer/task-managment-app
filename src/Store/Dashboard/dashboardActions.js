@@ -41,9 +41,9 @@ export const fetchProjectStatusData=()=>{
             },
           })
           .then((res)=>{
-            const responseData=res.data;
+            const responseData=res.data.project;
             console.log(responseData.project,"ahmedinnnnnnnnnnnnnnn");
-            dispatch(dashBoardDataSuccess(responseData.data))
+            dispatch(dashBoardDataSuccess(responseData));
           })
           .catch((err)=>{
             const errorData=err.message;

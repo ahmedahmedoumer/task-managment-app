@@ -16,7 +16,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     },
     {
       key: "user-management",
-      label: "User mgt",
+      label: "user_management",
       path: "user-managment",
       icon: <WindowsOutlined />,
     },
