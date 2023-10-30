@@ -23,35 +23,39 @@ export const dashBoardDataFailure=(error)=>{
 }
 export const allUsersDataSuccess=(data)=>{
     return {
-        type:allDashboardActionTypes.ALL_USERS_DATA_REQUEST,
+        type:allDashboardActionTypes.ALL_USERS_DATA_SUCCESS,
+        payload:data
+    }
+}
+export const allTasksDataSuccess=(data)=>{
+    return {
+        type:allDashboardActionTypes.ALL_TASKS_DATA_SUCCESS,
         payload:data
     }
 }
 
 
-export const fetchProjectStatusData=()=>{
-   const token=localStorage.getItem("token");
-    return (dispatch)=>{
-        dispatch(dashBoardDataRequest());
-        axios({
-            method: "GET",
-            url: `${URLst}/project`,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((res)=>{
-            const responseData=res.data.project;
-            console.log(responseData.project,"ahmedinnnnnnnnnnnnnnn");
-            dispatch(dashBoardDataSuccess(responseData));
-          })
-          .catch((err)=>{
-            const errorData=err.message;
-            console.log(errorData,"erorororororororo");
-            dispatch(dashBoardDataFailure(errorData));
+// export const fetchProjectStatusData=()=>{
+//    const token=localStorage.getItem("token");
+//     return (dispatch)=>{
+//         dispatch(dashBoardDataRequest());
+//         axios({
+//             method: "GET",
+//             url: `${URLst}/project`,
+//             headers: {
+//               Authorization: `Bearer ${token}`,
+//             },
+//           })
+//           .then((res)=>{
+//             const responseData=res.data.project;
+//             dispatch(dashBoardDataSuccess(responseData));
+//           })
+//           .catch((err)=>{
+//             const errorData=err.message;
+//             dispatch(dashBoardDataFailure(errorData));
 
-          })
-        }}
+//           })
+//         }}
 
 export const fetchAllUsersData=()=>{
   const token=localStorage.getItem("token");
@@ -59,14 +63,14 @@ export const fetchAllUsersData=()=>{
        dispatch(dashBoardDataRequest());
        axios({
            method: "GET",
-           url: `${URLst}/users`,
+           url: `${URLst}/user`,
            headers: {
              Authorization: `Bearer ${token}`,
            },
          })
          .then((res)=>{
            const responseData=res.data;
-           dispatch(allUsersDataSuccess(responseData.data));
+           dispatch(allUsersDataSuccess(responseData));
          })
          .catch((err)=>{
            const errorData=err.message;
@@ -75,29 +79,29 @@ export const fetchAllUsersData=()=>{
    }
 
 }
-// export const fetchAllUsersAssignedTickets=()=>{
-//      const token=localStorage.getItem('token');
-//   return (dispatch)=>{
-//     dispatch(allUserAssignedTicketsRequest());
-//     axios({
-//       method: "GET",
-//       url: `${URLst}/tickets/user-assigned-ticket`,
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     })
-//     .then((res)=>{
-//       const responseData=res.data;
-//       const succssMessage="fetched successfully";
-//       dispatch(allUserAssignedTicketsSuccess(responseData.data));
-//       // dispatch(successMessage(succssMessage));
-//     })
-//     .catch((err)=>{
-//       const errorData=err.message;
-//       dispatch(allUserAssignedTicketsFailure(errorData));
-//       dispatch(errorMessage(errorData));
-//     })
-//    }
-// }
+export const fetchAllTasksData=()=>{
+     const token=localStorage.getItem('token');
+  return (dispatch)=>{
+    dispatch(dashBoardDataRequest());
+    axios({
+      method: "GET",
+      url: `${URLst}/task`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res)=>{
+      const responseData=res.data;
+      const succssMessage="fetched successfully";
+      dispatch(allTasksDataSuccess(responseData));
+      // dispatch(successMessage(succssMessage));
+    })
+    .catch((err)=>{
+      const errorData=err.message;
+      dispatch(dashBoardDataFailure(errorData));
+    })
+   }
+}
+
 
 

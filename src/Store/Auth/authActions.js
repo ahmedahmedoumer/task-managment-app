@@ -20,22 +20,36 @@ export const loginFailure=(error)=>{
     }
 }
 
-export const userLoginRequest=()=>{
-    const id='d3dfe7f0-6f8b-4d0a-8cb6-219e59153211';
+export const userLoginRequest=(formData)=>{
+    const token=localStorage.getItem('token');
     return (dispatch)=>{
         dispatch(loginRequest());
     axios({
-        method:"get",
-        url:`${URLst}/user/${id}`,
+        method:"post",
+        url:`${URLst}/auth`,
+        data:formData,
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
     })
     .then(res=>{
         const userData=res.data
-        console.log(res.data);
+        let permission=[];
+        userData?.role?.permission?.map(item=>{
+            permission.push(item.slug);
+        });
+        localStorage.setItem("permission",permission);
+        localStorage.setItem('firstName',`${userData.firstName}`);
+        localStorage.setItem('lastName',`${userData.lastName}`);
+        localStorage.setItem('email',`${userData.email}`);
+        localStorage.setItem('id',`${userData.id}`);
+        localStorage.setItem("token",`${res?.userToken}`);
+        localStorage.setItem("roleType",`${userData?.role?.name}`)
         dispatch(loginSuccess(userData));
+        window.location.href = '/dashboard';
     })
     .catch(err=>{
         const error=err.message;
-        console.log(error);
         dispatch(loginFailure(error));
     });
 

@@ -1,6 +1,6 @@
-import { BarChartOutlined, InfoCircleOutlined, ProjectOutlined, SettingOutlined, WindowsOutlined } from "@ant-design/icons";
+import { BarChartOutlined, GroupOutlined, InfoCircleOutlined, ProjectOutlined, SettingOutlined, UserOutlined, UsergroupAddOutlined, WindowsOutlined } from "@ant-design/icons";
 
-export const URLst='http://172.16.33.178:3000/api'
+export const URLst='https://nestapp-b1am.onrender.com/api';
 export const DASHBOARD_SIDEBAR_LINKS = [
     {
       key: "Dashboard",
@@ -9,17 +9,23 @@ export const DASHBOARD_SIDEBAR_LINKS = [
       icon: <WindowsOutlined />,
     },
     {
+      key: "Users",
+      label: "Users",
+      path: "users",
+      icon: <UsergroupAddOutlined />,
+    },
+    {
       key: "project",
       label: "Projects",
       path: "projects",
       icon: <ProjectOutlined />,
     },
-    {
-      key: "user-management",
-      label: "user_management",
-      path: "user-managment",
-      icon: <WindowsOutlined />,
-    },
+    // {
+    //   key: "user-management",
+    //   label: "user_management",
+    //   path: "user-managment",
+    //   icon: <WindowsOutlined />,
+    // },
     {
       key: "Tasks",
       label: "Tasks",

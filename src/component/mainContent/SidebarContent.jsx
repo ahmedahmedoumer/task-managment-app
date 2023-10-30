@@ -2,16 +2,21 @@ import React, { useEffect } from "react";
 import CardComponent from "../CardComponent";
 import PieChart from "../PieChart";
 import { connect } from "react-redux";
-import { fetchProjectStatusData } from "../../Store";
+import { fetchAllTasksData, fetchAllUsersData, fetchProjectStatusData } from "../../Store";
 import Layout from "../Layout";
-import LineChart from "../LineChart";
+import { ProjectOutlined, UnorderedListOutlined, UsergroupAddOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
- function SidebarContent({projects,fetchProjectStatusData,error,loading}) {
+ function SidebarContent({projects,fetchProjectStatusData,fetchAllUsersData,fetchAllTasksData,users,tasks}) {
 
   useEffect(()=>{
     fetchProjectStatusData();
+    fetchAllUsersData();
+    fetchAllTasksData();
   },[]);
-  console.log(projects,"projectsssssssssss");
+ 
+
+
     const array=[1,2,3,4]
     const data = [
       { name: 'Jan', value: 10 },
@@ -22,20 +27,38 @@ import LineChart from "../LineChart";
     ];
   return <>
           <Layout>
-            <div className='grid grid-cols-4 space-x-4 mt-20'>
-              {projects?.map((item,index) => 
+            <div className='grid grid-cols-3 space-x-4 mt-20'>
+              
               <CardComponent
-                    key={index}
-                    text={item?.name}
-                    number={item?.task?.length}
-                    item={item}
-                    startDate={item?.startDate}
-                    endDate={item?.endDate}
-                />)}
+                    // key={index}
+                    text={"All Projects"}
+                    number={projects?.length}
+                    icon={<ProjectOutlined />}
+                    url={"/projects"}
+               
+                />
+
+                    <CardComponent
+                        // key={index}
+                        text={"All Tasks"}
+                        number={tasks?.length}
+                        icon={<UnorderedListOutlined/>}
+                        url={"/tasks"}
+                          />
+                  <CardComponent
+                      // key={index}
+                      text={"All Users"}
+                      number={users?.length}
+                      icon={<UsergroupAddOutlined />}
+                      url={"/users"}
+
+                  />
             </div>
-            {projects && (<div>There is no Projects Available</div>)}
             <div className='flex justify-center items-center text-black font-serif mt-10'>
-              <PieChart />
+              <PieChart 
+                 labelValue={['users','tasks','projects']}
+                 dataValue={[users.length,tasks?.length,projects?.length]}
+                />
               {/* <LineChart data={data}/> */}
             </div>
             </Layout>
@@ -45,15 +68,19 @@ import LineChart from "../LineChart";
 
 export const mapStateToProps=(state)=>{
  return{
-   projects:state.dashboardReducer.projects,
+   projects:state.projectReducer.allProjects,
+   tasks:state.dashboardReducer.tasks,
+   users:state.dashboardReducer.users,
    error:state.dashboardReducer.error,
    loading:state.dashboardReducer.loading,
- }
-}
+ };
+};
 export const mapDispatchToProps=(dispatch)=>{
   return{
     fetchProjectStatusData:() => dispatch(fetchProjectStatusData()),
-  }
-}
+    fetchAllUsersData:() => dispatch(fetchAllUsersData()),
+    fetchAllTasksData:() => dispatch(fetchAllTasksData()),
+  };
+};
 
 export default connect(mapStateToProps,mapDispatchToProps)(SidebarContent);

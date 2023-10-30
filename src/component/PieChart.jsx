@@ -3,12 +3,12 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChart = () => {
+const PieChart = ({labelValue,dataValue}) => {
     const data = {
-      labels: ['Label 1', 'Label 2', 'Label 3'],
+      labels: labelValue,
       datasets: [
         {
-          data: [30, 40, 30], 
+          data: dataValue, 
           backgroundColor: ['red', 'blue', 'green'], 
         },
       ],

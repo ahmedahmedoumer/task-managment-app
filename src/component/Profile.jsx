@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 const ProfileComponent = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragY, setDragY] = useState(0);
-
-  const handleDragStart = (e) => {
+    const handleDragStart = (e) => {
     setIsDragging(true);
     setDragY(e.clientY);
+  };  
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
   };
 
   const handleDragEnd = () => {
@@ -25,7 +28,7 @@ const ProfileComponent = () => {
             <button className="text-white">Settings</button>
           </li>
           <li>
-            <button className="text-white">Logout</button>
+            <button onClick={handleLogout} className="text-white">Logout</button>
           </li>
         </ul>
       </div>

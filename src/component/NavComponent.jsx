@@ -4,6 +4,8 @@ import React, { useState } from "react";
 
    export default function NavComponent({}) {
       const [isOpen,setIsOpen]=useState(false);
+      const fname=localStorage.getItem('firstName');
+      const lname=localStorage.getItem('lastName');
       return (
          <div>
             <nav className='flex space-x-5 justify-between text-lg font-serif font-bold'>
@@ -20,7 +22,7 @@ import React, { useState } from "react";
                               
                               <div className="flex space-x-2 items-center cursor-pointer" onClick={()=>setIsOpen(!isOpen)}>
                                  <span className="rounded" ><UserOutlined /></span>
-                                 <span className="text-gray-800 text-sm mt-2">Ahmedin O</span>
+                                 <span className="text-gray-800 text-sm mt-2"></span>
                                  {isOpen && <Profile/>}
                               </div>
                             

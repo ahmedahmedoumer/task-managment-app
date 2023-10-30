@@ -1,28 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import CardComponent from '../../component/CardComponent'
 import Layout from '../../component/Layout'
 import { PlusOutlined } from '@ant-design/icons'
-function Projects() {
-  const array=[1,2,3,4,5,6,7,8]
-  return (
+import { addProjectData, deleteProjectData, fetchProjectStatusData } from '../../Store'
+import CreateProject from './CreateProject'
+function Projects({projects,deleteProjectData,fetchProjectStatusData,addProjectData}) {
+   const [deleteItem,setDeleteItem]=useState('');
+   const [editItem,setEditItem]=useState('');
+   const [isOpen,setIsOpen]=useState(false);
+
+   const handlePopupSubmit = (data) => {
+      setIsOpen(false);
+      addProjectData(data,projects);
+   };
+ 
+      useEffect(()=>{
+        fetchProjectStatusData();
+      },[]);
+
+      if(deleteItem){
+        deleteProjectData(deleteItem,projects);
+        setDeleteItem(null);
+        setEditItem(null);
+      }
+
+      return (
     <Layout>
       <div className='flex justify-between'>
         <div className='text-3xl text-ellipsis-gray-850 font-serif mt-20'>List of projects</div>
-      <div className='flex justify-between gap-2 items-center bg-gradient-to-br from-gray-700 cursor-pointer to-gray-900 px-4 py-2 font-serif text-xl text-white rounded mt-20  '><PlusOutlined className=''/>create project</div></div>
+      <div onClick={()=>setIsOpen(!isOpen)} className='flex justify-between gap-2 items-center bg-gradient-to-br from-gray-700 cursor-pointer to-gray-900 px-4 py-2 font-serif text-xl text-white rounded mt-20  '>
+                  <PlusOutlined className=''/>create project</div></div>
 
           <div className='grid grid-cols-4 space-x-4 space-y-4 mt-5 mr-5'>
-            {array.map((item,index)=>(
+            {projects?.map((item,index)=>(
                 <CardComponent
                     key={index}
-                    text="Sample Text"
-                    number="42"
-                    icon="Icon"
-                    startDate="2023-01-01"
-                    endDate="2023-12-31"
+                    text={item?.name}
+                    deleteItem={deleteItem}
+                    setDeleteItem={setDeleteItem}
+                    editItem={editItem}
+                    setEditItem={setEditItem}
+                    number={`Number Of Task ${projects[index]?.task?.length}`}
+                    url={`/projects/${item?.id}`}
+                    startDate={item?.startDate}
+                    endDate={item?.endDate}
+                    status={item?.status}
                 />
             ))}
            </div>
+           <CreateProject
+                title={"Create Project"}
+                visible={isOpen}
+                onCancel={()=>setIsOpen(false)}
+                onSubmit={(data)=>{
+                           handlePopupSubmit(data);
+                          }}
+           />
 
     </Layout>
 
@@ -30,13 +64,17 @@ function Projects() {
 }
 export const mapStateToProps=(state)=>{
   return{
-    // listofProjects:
-  }
-}
-export const mapDispatchToProps=(dispatch)=>{
-  return{
-
-  }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(Projects);
+    projects:state.projectReducer.allProjects,
+    error:state.projectReducer.error,
+    loading:state.projectReducer.loading,
+  };
+ };
+ export const mapDispatchToProps=(dispatch)=>{
+   return{
+     fetchProjectStatusData:() => dispatch(fetchProjectStatusData()),
+     deleteProjectData:(id,projects)  => dispatch(deleteProjectData(id,projects)),
+     addProjectData: (data,projects) => dispatch(addProjectData(data,projects)),
+   };
+ };
+ 
+ export default connect(mapStateToProps,mapDispatchToProps)(Projects);

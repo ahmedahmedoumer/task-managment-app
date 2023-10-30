@@ -3,7 +3,7 @@ import * as allDashboardActionTypes from "./dashboardActionTypes";
 const initialState={
      users:[],
      projects:[],
-     users:[],
+     tasks:[],
      error:'',
      loading:false
 }
@@ -28,11 +28,17 @@ export const dashboardReducer=(state=initialState,actions)=>{
                 loading:false,
                 error:actions.payload
             }
-        case allDashboardActionTypes.ALL_USERS_DATA_REQUEST:
+        case allDashboardActionTypes.ALL_USERS_DATA_SUCCESS:
             return{
                 ...state,
                 loading:false,
                 users:actions.payload
+            }
+        case allDashboardActionTypes.ALL_TASKS_DATA_SUCCESS:
+            return{
+                ...state,
+                loading:false,
+                tasks:actions.payload,
             }
         default : return state;
 
