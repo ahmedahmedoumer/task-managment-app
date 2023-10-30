@@ -17,7 +17,7 @@ import React, { useState } from "react";
                               <div className="flex space-x-2 items-center">
                                  <div className="flex  mr-5 space-x-2 items-center">
                                     <span className="absolute text-black text-3xl "><AlertOutlined/></span>
-                                    <span className="relative bg-red-500 text-xs rounded items-center p-0.5 px-1 text-white">3</span>
+                                    <span className="relative bg-red-500 text-xs rounded items-center p-0.5 px-1 text-white mb-4 ml-2">3</span>
                                  </div>
                               
                               <div className="flex space-x-2 items-center cursor-pointer" onClick={()=>setIsOpen(!isOpen)}>

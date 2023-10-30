@@ -1,6 +1,6 @@
 import { AllRoutes } from './AllRoutes';
 import { Header } from './component/HeaderFile/Header';
-import { SideBarTabs } from './component/mainContent/SideBarTabs';
+// import { SideBarTabs } from './component/mainContent/SideBarTabs';
 
 function App() {
  const token=localStorage.getItem('token');

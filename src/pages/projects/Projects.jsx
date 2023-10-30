@@ -14,7 +14,6 @@ function Projects({projects,deleteProjectData,fetchProjectStatusData,addProjectD
       setIsOpen(false);
       addProjectData(data,projects);
    };
- 
       useEffect(()=>{
         fetchProjectStatusData();
       },[]);
