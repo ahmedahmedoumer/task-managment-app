@@ -1,30 +1,20 @@
 import React, { useEffect } from "react";
-import CardComponent from "../CardComponent";
-import PieChart from "../PieChart";
+import CardComponent from "../../component/CardComponent";
+import PieChart from "../../component/PieChart";
 import { connect } from "react-redux";
-import { fetchAllTasksData, fetchAllUsersData, fetchProjectStatusData } from "../../Store";
-import Layout from "../Layout";
+// import { fetchAllTasksData, fetchAllUsersData, fetchProjectStatusData } from "../../Store";
+import Layout from "./ClientLayout";
 import { ProjectOutlined, UnorderedListOutlined, UsergroupAddOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { fetchAllTasksData, fetchAllUsersData, fetchProjectStatusData } from "../../Store";
 
- function SidebarContent({projects,fetchProjectStatusData,fetchAllUsersData,fetchAllTasksData,users,tasks}) {
+ function ClientDashboard({projects,fetchProjectStatusData,fetchAllUsersData,fetchAllTasksData,users,tasks}) {
 
   useEffect(()=>{
-    fetchProjectStatusData();
-    fetchAllUsersData();
-    fetchAllTasksData();
+    // fetchProjectStatusData();
+    // fetchAllUsersData();
+    // fetchAllTasksData();
   },[]);
  
-
-
-    const array=[1,2,3,4]
-    const data = [
-      { name: 'Jan', value: 10 },
-      { name: 'Feb', value: 20 },
-      { name: 'Mar', value: 15 },
-      { name: 'Apr', value: 30 },
-      { name: 'May', value: 25 },
-    ];
   return <>
           <Layout>
             <div className='grid grid-cols-3 space-x-4 mt-20'>
@@ -83,4 +73,4 @@ export const mapDispatchToProps=(dispatch)=>{
   };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(SidebarContent);
+export default connect(mapStateToProps,mapDispatchToProps)(ClientDashboard);

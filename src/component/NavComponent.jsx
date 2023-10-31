@@ -9,8 +9,7 @@ import React, { useState } from "react";
       return (
          <div>
             <nav className='flex space-x-5 justify-between text-lg font-serif font-bold'>
-                           <div className="flex">
-
+                           <div hidden className="flex">
                               <a href="#" className="absolute px-2"><SearchOutlined/></a>
                               <span><input type="text" name="" id="" className="py-1 px-8 rounded border boredr-gray-100" /></span>
                               </div>

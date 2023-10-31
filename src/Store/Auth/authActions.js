@@ -33,18 +33,21 @@ export const userLoginRequest=(formData)=>{
         }
     })
     .then(res=>{
-        const userData=res.data
+        console.log(res,"response");
+        const userData=res.data;
+        // console.log(userData.data,"userData");
         let permission=[];
-        userData?.role?.permission?.map(item=>{
+        userData?.data?.role?.permission?.map(item=>{
             permission.push(item.slug);
         });
+        // console.log(permission,"permission");
         localStorage.setItem("permission",permission);
-        localStorage.setItem('firstName',`${userData.firstName}`);
-        localStorage.setItem('lastName',`${userData.lastName}`);
-        localStorage.setItem('email',`${userData.email}`);
-        localStorage.setItem('id',`${userData.id}`);
-        localStorage.setItem("token",`${res?.userToken}`);
-        localStorage.setItem("roleType",`${userData?.role?.name}`)
+        localStorage.setItem('firstName',`${userData?.data?.firstName}`);
+        localStorage.setItem('lastName',`${userData?.data?.lastName}`);
+        localStorage.setItem('email',`${userData?.data?.email}`);
+        localStorage.setItem('id',`${userData?.data?.id}`);
+        localStorage.setItem("token",`${res?.data?.userToken}`);
+        localStorage.setItem("roleType",`${userData?.data?.role?.name}`);
         dispatch(loginSuccess(userData));
         window.location.href = '/dashboard';
     })

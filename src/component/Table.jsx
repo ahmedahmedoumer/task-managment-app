@@ -2,9 +2,10 @@ import { MoreOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import dateFormat, { masks } from "dateformat";
 import { Link, useParams } from 'react-router-dom';
+import { Pagination } from 'antd';
 
                 
-const Table = ({data,setDeleteItem,users,assignTask,setAssignTask,assignTo,setAssignTo}) => {
+const Table = ({data,setDeleteItem,users,assignTask,setAssignTask,assignTo,setAssignTo,taskList}) => {
     const [isDropDown,setIsDropDown]=useState(false);
     const [clickedRow,setClickedRow]=useState('');
     const { id } = useParams();
@@ -22,7 +23,7 @@ const Table = ({data,setDeleteItem,users,assignTask,setAssignTask,assignTo,setAs
               <th className="text-left p-3 px-5">Created Date</th>
               <th className="text-left p-3 px-5">End Date</th>
               <th className="text-left p-3 px-5">status</th>
-              <th className="text-left p-3 px-5">Actions</th>
+              {taskList &&<th className="text-left p-3 px-5">Actions</th>}
             </tr>
           </thead>
           <tbody className='gap-4'>
@@ -38,7 +39,7 @@ const Table = ({data,setDeleteItem,users,assignTask,setAssignTask,assignTo,setAs
                     <td className="p-3 px-5">{dateFormat(item?.updatedAt,"fullDate")}</td>
                     <td className="p-3 px-5">{dateFormat(item?.createdAt,"fullDate")}</td>
                     <td className="p-3 px-5">{bgColor?.[item?.taskStatus?.status] ?? bgColor?.undefined}</td>
-                    <td  className="p-3 px-5 font-bold text-3xl">
+                     {taskList && <td  className="p-3 px-5 font-bold text-3xl">
                         <MoreOutlined onClick={()=>{setIsDropDown(!isDropDown);setClickedRow(index)}}/>
                         {isDropDown && clickedRow==index &&(
                         <div className='flex flex-col space-y-2 rounded  text-gray-950 bg-blue-100 font-serif px-3 pxy-1 text-sm ml-8 capitalize cursor-pointer'>
@@ -54,10 +55,10 @@ const Table = ({data,setDeleteItem,users,assignTask,setAssignTask,assignTo,setAs
                              </div>)}
                             <span className='text-red-500 text-md' onClick={()=>{setDeleteItem(item?.id)}}>Delete task</span>
                         </div>)}
-                    </td>
+                    </td>}
                 </tr>
            )}
-            {/* Add more rows with data as needed */}
+            <Pagination />
           </tbody>
         </table>
       </div>
