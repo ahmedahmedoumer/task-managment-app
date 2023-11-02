@@ -5,26 +5,43 @@ import { fetchAllTaskData } from '../../Store';
 import { useEffect } from 'react';
 import Table from '../../component/Table';
 import { SearchOutlined } from '@ant-design/icons';
+import SearchComponent from '../../component/SearchComponent';
+import { Header } from '../../component/HeaderFile/Header';
 function TaskListItem({fetchAllTasks,taskList,error,loading}) {
   const [activeTab, setActiveTab] = useState(1);
   const [searchData,setSearchData]=useState('');
   const [filteredTask,setFilteredTask]=useState();
+
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
   useEffect(()=>{
     fetchAllTasks();
   },[]);
+  useEffect(()=>{
+    setFilteredTask(taskList?.filter(item =>(item?.user?.firstName?.includes(searchData) 
+      || item?.name?.includes(searchData)||
+      item?.taskStatus?.status?.includes(searchData))));
+  },[searchData]);
   return (
+    <div>
     <Layout>
       <div className='mt-20'>
           <div className="flex ml-10">
-              <a href="#" className="absolute mt-1 ml-1"><SearchOutlined/></a>
-              <span><input type="text" name="searchData" id="search" defaultValue={searchData} onChange={(e)=>setFilteredTask(taskList?.filter(item => item?.name?.includes(e.target.value)))} className="py-2 px-8 rounded border boredr-gray-100" /></span>
+              <span className='border-2 flex space-x-2 border-gray-100 rounded active:border-blue-600 bg-white pl-3 '> 
+                     <SearchOutlined className='text-gray-600'/>
+                                 <input type="text"  name="searchData" id="search" defaultValue={searchData} 
+                                          onChange={(e)=>setFilteredTask(taskList?.filter(item =>
+                                                                    (item?.user?.firstName?.includes(e.target.value) 
+                                                                    || item?.name?.includes(e.target.value)||
+                                                                    item?.taskStatus?.status?.includes(e.target.value))))}
+                                                                    className=" py-2 px-1 rounded outline-none" />
+                </span>
           </div>
       <Table data={!filteredTask? taskList : filteredTask} taskList={true}/>  
       </div>
     </Layout>
+    </div>
   );
 }
 export const mapStateToProps=(state)=>{

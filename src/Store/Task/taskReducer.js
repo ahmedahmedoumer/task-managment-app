@@ -36,13 +36,13 @@ export const taskReducer=(state=initalState,actions)=>{
                 return{
                     ...state,
                     loading:false,
-                    // task:actions.payload,
+                    taskList:actions.payload,
                 }
            case taskActionTypes.TASK_TRANSFER_TO_IN_PROGRESS:
                     return{
                         ...state,
                         loading:false,
-                        // task:actions.payload,
+                        taskList:actions.payload,
                    }
             default: return state;
         }

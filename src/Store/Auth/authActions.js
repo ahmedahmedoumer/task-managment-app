@@ -35,7 +35,7 @@ export const userLoginRequest=(formData)=>{
     .then(res=>{
         console.log(res,"response");
         const userData=res.data;
-        // console.log(userData.data,"userData");
+        console.log(userData.data,"userData");
         let permission=[];
         userData?.data?.role?.permission?.map(item=>{
             permission.push(item.slug);
@@ -54,6 +54,8 @@ export const userLoginRequest=(formData)=>{
     .catch(err=>{
         const error=err.message;
         dispatch(loginFailure(error));
+        window.location.href = '/login';
+
     });
 
     }

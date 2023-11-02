@@ -4,7 +4,7 @@ import { ClientRoutes } from './ClientRoutes';
 // import { SideBarTabs } from './component/mainContent/SideBarTabs';
 
 function App() {
-      const userType=localStorage.getItem('userType');
+      const userType=localStorage.getItem('roleType');
  const token=localStorage.getItem('token');
 return<>
             { token!==null && (

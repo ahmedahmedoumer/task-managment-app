@@ -17,8 +17,7 @@ import { Link } from 'react-router-dom';
   return (
   // <Link to={`projects/${url}`}>
   <Link to={`${url}`} >
-
-    <div className=" ml-2 mt-2 bg-white rounded p-4 font-serif">
+    <div className=" ml-2 mt-2 bg-white rounded p-4 font-serif w-full min-w-[200px] min-h-[250px]">
       <div className="flex items-center">
         <div className="w-3/4">
           <div className="flex justify-between p-0 space-x-6 text-xl font-semibold mb-8"><span>{text}</span> <span className='text-3xl'>{icon}</span></div>

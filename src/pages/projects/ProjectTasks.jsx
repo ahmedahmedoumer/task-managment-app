@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Table from '../../component/Table'
 import Layout from '../../component/Layout';
 import { addTaskToProject, deleteTaskOnProject, fetchAllUsersData, getProjectById, taskAssignToUser } from '../../Store';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CreateProject from './CreateProject';
-import assignProject from '../../component/assignProject';
+import AssignProject from './AssignProject';
+import { useEffect } from 'react';
 
 function ProjectTasks({getProjectById,addTaskToProject,fetchAllUsersData,deleteTaskOnProject,taskAssignToUser,users,project,error,loading}) {
   const [assignTask,setAssignTask]=useState('');
@@ -13,11 +14,11 @@ function ProjectTasks({getProjectById,addTaskToProject,fetchAllUsersData,deleteT
   const { id } = useParams();
   const [deleteItem,setDeleteItem]=useState('');
   const [isUserListOpen,setIsUserListOpen]=useState(false);
+  const [isOpen,setIsOpen]=useState(false);
+  const [selectedTask,setSelectedTask]=useState({});
+  const [assignedUser,setAssignedUser]=useState('');
 
-    useEffect(()=>{
-      fetchAllUsersData();
-    },[])
-    const handlePopupSubmit = (data) => {
+  const handlePopupSubmit = (data) => {
         setIsOpen(false);
         addTaskToProject(data,project);
     };
@@ -25,47 +26,55 @@ function ProjectTasks({getProjectById,addTaskToProject,fetchAllUsersData,deleteT
     deleteTaskOnProject(deleteItem,project);
     setDeleteItem('');
   }
-  if(assignTask && assignTo){
-  
-    taskAssignToUser(assignTask,assignTo);
-    setAssignTask('');
+  if(selectedTask && assignTo){
+    // console.log("hello assign");
+    taskAssignToUser(selectedTask?.id,assignTo,project);
+    setSelectedTask('');
     setAssignTo('');
-
   }
-  const [isOpen,setIsOpen]=useState(false);
-    useEffect(()=>{
-      getProjectById(id);
-    },[]);
+  useEffect(()=>{
+    fetchAllUsersData();
+    getProjectById(id);
+  },[]);
   return (<div>
             <Layout>
-               <div className='text-3xl mt-16 font-serif text-gray-950 '>Number of Tasks </div>
                <div className='flex justify-end ml-5 px-3 py-2 rounded'>
-                       <span onClick={()=>setIsOpen(!isOpen)} className='bg-gray-950 cursor-pointer text-md text-white font-serif px-7 py-2 rounded'>add task</span></div>
+                   <span onClick={()=>setIsOpen(!isOpen)} className='bg-gray-950 cursor-pointer text-md text-white font-serif px-7 py-2 rounded mt-16'>add task</span></div>
                 <Table data={project?.task} 
                        setDeleteItem={setDeleteItem}
                        users={users}
-                       assignTask={assignTask}
-                       setAssignTask={setAssignTask}
-                       assignTo={assignTo}
-                       setAssignTo={setAssignTo}
+                       setSelectedTask={setSelectedTask}
+                       setAssignedUser={setAssignedUser}
                        isUserListOpen={isUserListOpen}
                        setIsUserListOpen={setIsUserListOpen}
                 />   
-                <CreateProject
-                    title={"create Task"}
-                    visible={isOpen}
-                    onCancel={()=>setIsOpen(false)}
-                    onSubmit={(data)=>{
-                              handlePopupSubmit(data);
-                              }}
-                 />
-                <assignProject
+                {isOpen &&
+                    <CreateProject
+                      title={"create Task"}
+                      open={isOpen}
+                      onCancel={()=>setIsOpen(false)}
+                      onSubmit={(data)=>{
+                                handlePopupSubmit(data);
+                                }}
+                    />
+                }
+                {/* <assignProject
                     title={"assign task to user"}
                     users={users}
                     onSubmit={()=>console.log("hello assign task")}
                     onCancel={()=>setIsUserListOpen(false)}
                     visible={isUserListOpen}
-                />              
+                />               */}
+                  <AssignProject
+                       visible={isUserListOpen}
+                       onCancel={()=>setIsUserListOpen(false)}
+                       selectedTask={selectedTask}
+                       title={"Assign task"}
+                       userOptions={users}
+                       initialName={selectedTask?.name}
+                       onAssign={(data)=>{setAssignTo(data);setIsUserListOpen(false)}}
+                  />
+
            </Layout>
            </div>
   
@@ -85,7 +94,7 @@ export const mapStateToProps=(state)=>{
     addTaskToProject: (data,project) => dispatch(addTaskToProject(data,project)),
     deleteTaskOnProject: (id,project) => dispatch(deleteTaskOnProject(id,project)),
     fetchAllUsersData:() => dispatch(fetchAllUsersData()),
-    taskAssignToUser:(assignTask,assignTo) => dispatch(taskAssignToUser(assignTask,assignTo)),
+    taskAssignToUser:(assignTask,assignTo,project) => dispatch(taskAssignToUser(assignTask,assignTo,project)),
 
    };
  };

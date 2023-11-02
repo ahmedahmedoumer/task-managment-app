@@ -1,6 +1,6 @@
 import { BarChartOutlined, GroupOutlined, InfoCircleOutlined, ProjectOutlined, SettingOutlined, UserOutlined, UsergroupAddOutlined, WindowsOutlined } from "@ant-design/icons";
 
-export const URLst='http://192.168.167.58:3000/api';
+export const URLst='http://172.16.32.110:3000/api';
 export const DASHBOARD_SIDEBAR_LINKS = [
     {
       key: "Dashboard",

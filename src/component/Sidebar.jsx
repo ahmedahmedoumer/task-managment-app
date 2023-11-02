@@ -11,7 +11,7 @@ const Sidebar = () => {
   return (
     <div className="hidden sm:flex flex-col col-span-1 md:col-span-2 px-2 md:px-4 py-6 bg-gradient-to-br from-gray-700 cursor-pointer to-gray-900 text-[#0F3A62] overflow-hidden scrollbar-hide">
       
-      <div className="flex-1 py-8 px-8 flex-col gap-0.5 text-lg font-serif mt-16">
+      <div className="flex-1 py-8 px-10 flex-col gap-0.5 text-lg font-serif mt-16">
       <Link to={"/"}>
             <img
               className="w-[50px] h-[50px] text-white ml-10 mb-5"
@@ -37,7 +37,7 @@ function SidebarLink({ item }) {
       to={`/${item.path}`}
       className={classNames(
         pathname.includes(item.path)
-          ? "flex bg-gray-200 text-gray-950 rounded space-y-4 pr-60 "
+          ? "flex bg-gray-200 text-gray-950 rounded space-y-4 pr-60 w-1/5 "
           : "text-white",
         linkClasses
       )}

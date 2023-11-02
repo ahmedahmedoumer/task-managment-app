@@ -66,6 +66,7 @@ export const projectReducer=(state=initialState,actions)=>{
             return{
                 ...state,
                 loading:false,
+                project:actions.payload,
             }
         default:return state;
 

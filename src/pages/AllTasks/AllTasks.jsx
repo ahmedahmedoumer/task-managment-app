@@ -18,10 +18,6 @@ function AllTasks({fetchAllTasksData,fetchAllUsersData,users,allTasks}) {
     const Rows=['task 1','sep 2023','oct 2023','Open','ahmedin'];
   return (<>
          <Layout>
-           <div className=' text-gray-900 text-4xl font-serif m-10'>
-                  <div>AllTasks</div>
-             </div>
-
               <Table data={allTasks} 
                    setDeleteItem={setDeleteItem}
                    users={users}

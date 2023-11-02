@@ -92,7 +92,7 @@ export  const fetchAllTaskData=()=>{
     }
 }
 
-export const transferToDoneByinProgressId=(inProgressId)=>{
+export const transferToDoneByinProgressId=(inProgressId,taskList)=>{
     const token=localStorage.getItem('token');
     return (dispatch)=>{
         dispatch(fetchTaskDataRequest());
@@ -106,31 +106,33 @@ export const transferToDoneByinProgressId=(inProgressId)=>{
         })
         .then(res=>{
             const data=res.data;
-            dispatch(transferToDoneByinProgressIdSuccess(data));
+            const taskIndex= taskList.findIndex(item=>item.id===inProgressId);
+            taskList[taskIndex]=data;
+            dispatch(transferToDoneByinProgressIdSuccess(taskList));
         })
         .catch(err=>{
             const error=err.message;
             dispatch(fetchTaskDataFailure(error));
         })
-
     }
 }
-
-export const taskTransferToInProgressByTodoId=(todoId)=>{
+export const taskTransferToInProgressByTodoId=(todoId,taskList)=>{
     const token=localStorage.getItem('token');
     return (dispatch)=>{
+        console.log(taskList.filter(item=>item.id === todoId),"taskListt");
         dispatch(fetchTaskDataRequest());
         axios({
             method:"post",
             url:`${URLst}/in-progress/${todoId}`,
-            data:status,
             headers:{
                 Authorization:`Bearer ${token}`
             }
         })
         .then(res=>{
             const data=res.data;
-            dispatch(taskTransferToInProgressByTodoIdSuccess(data));
+            const taskIndex= taskList.findIndex(item=>item.id === todoId);
+            taskList[taskIndex]=data;
+            dispatch(taskTransferToInProgressByTodoIdSuccess(taskList));
         })
         .catch(err=>{
             const error=err.message;

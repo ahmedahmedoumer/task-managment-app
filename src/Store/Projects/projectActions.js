@@ -54,9 +54,10 @@ export const deleteTaskSuccess=(data)=>{
         payload:data,
     }
 }
-export const assignTaskSuccess=()=>{
+export const assignTaskSuccess=(project)=>{
     return{
         type:projectActionTypes.ASSIGN_TASK_TO_USER,
+        payload:project,
     }
 }
 
@@ -159,7 +160,6 @@ export const deleteProjectData=(id,projects)=>{
 
 export const getProjectById=(id)=>{
     const token=localStorage.getItem('token');
-    console
     return (dispatch)=>{
         dispatch(projectDataRequest());
     axios({
@@ -234,9 +234,10 @@ export const deleteTaskOnProject=(id,project)=>{
     }
 }
 
-export const taskAssignToUser=(assignTask,assignTo)=>{
+export const taskAssignToUser=(assignTask,assignTo,project)=>{
     const token=localStorage.getItem('token');
     return (dispatch)=>{
+        // console.log("hello ahmedin");
         dispatch(projectDataRequest());
     axios({
         method:"post",
@@ -246,12 +247,14 @@ export const taskAssignToUser=(assignTask,assignTo)=>{
         }
     })
     .then(res=>{
-        const newData=res.data;
-        // const updatedProject = {
-        //     ...project,
-        //     task: project?.task?.filter((task) => task.id !== id),
-        //   };
-        dispatch(assignTaskSuccess());
+        const newData=res.data.data;
+        console.log(newData,"newdatata");
+        console.log(assignTask,"assign task");
+
+        const index=project.task.findIndex((task) => task.id === assignTask);
+        console.log(index,"index ")
+        project.task[index]=newData;
+        dispatch(assignTaskSuccess(project));
     })
     .catch(err=>{
         const error=err.message;

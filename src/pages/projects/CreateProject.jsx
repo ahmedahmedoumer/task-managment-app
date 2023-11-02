@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Input, Button, DatePicker } from 'antd';
 
-const CreateProject = ({ visible, onCancel, onSubmit,title }) => {
+const CreateProject = ({open,onCancel, onSubmit,title }) => {
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -21,7 +21,7 @@ const CreateProject = ({ visible, onCancel, onSubmit,title }) => {
   return (
     <Modal
       title={title}
-      visible={visible}
+      open={open}
       onCancel={onCancel}
       footer={[
         <Button key="back" onClick={onCancel}>
