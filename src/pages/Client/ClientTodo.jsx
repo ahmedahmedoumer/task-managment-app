@@ -1,17 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from './ClientLayout';
-import { Table } from 'antd';
-import TableData from './tableData';
 import { connect } from 'react-redux';
 import { fetchAllTaskData, fetchTasksById, taskTransferToInProgressByTodoId, transferToDoneByinProgressId } from '../../Store';
 import { useEffect } from 'react';
-import { useState } from 'react';
-import UserData from '../User/UserData';
-import TaskBoard from './TaskBoard';
 import moment from 'moment';
+import { DndProvider, useDrag,useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransferToInProgressByTodoId,taskList,userTask,task,error,loading}) {
-
+     const imageSource=[
+      {
+        id:1,
+        url:'../public/4258468533.jpg',
+      },
+      {
+        id:2,
+        url:'../public/4258468533.jpg',
+      },
+      {
+        id:3,
+        url:'../public/4258468533.jpg',
+      },
+     ]
+     const [board,setBoard]=useState([]);
+    //  const [{ isDragging }, drag] = useDrag(() => ({
+    //   type: "image",
+    //   collect: (monitor) => ({
+    //     isDragging: !!monitor.isDragging(),
+    //   }),
+    // }));
+    
+    //  const [{isOver},drop]=useDrop(()=>({
+    //   accept:"image",
+    //   drop:(item)=>addImageToBoard(item.id),
+    //   collect:(monitor)=>({
+    //     isOver:!!monitor.isOver(),
+    //   }),
+    //  }));
+    const addImageToBoard=(item)=>{
+      console.log(item);
+    }
     useEffect(()=>{
         fetchAllTasks();
     },[]);
@@ -36,64 +64,23 @@ function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransfer
     const inProgressTasks = getTasksByStatus('in-progress');
     const doneTasks = getTasksByStatus('done');
   return (
-    <div>
     <Layout>
-    <div className="flex flex-row justify-center space-x-6 mt-20">
-        <div className='flex bg-'></div>
-      <div className="w-1/3">
-        <div className="bg-blue-200 p-4 rounded">
-          <h2 className="text-xl font-bold rounded">Todo</h2>
-          {todoTasks.map((task) => (
-            <div key={task.id} className="bg-white p-2 m-2 rounded font-serif">
-            <p className="font-bold">{task.name}</p>
-              <p>belongs To : {task?.project?.name}</p>
-              <p>Start Date: {task?.startDate}</p>
-              <p>End Date: {task?.endDate}</p>
-              <p>{daysLeft(task?.endDate)}</p>
-
-              
-              <p>
-                 <button className='bg-indigo-900 text-white text-xs rounded mb-0 mt-4 px-6 py-2' onClick={()=>handleTransferToInProgress(task?.id)}>transfer</button>
-              </p>
+      <DndProvider backend={HTML5Backend}>
+            <div className='mt-20 pictures flex space-x-3 rounded '>
+                {imageSource.map(item=>(
+                      <img className='w-1/3' src={item.url} alt={`image ${item.id}`} />
+                ))}
             </div>
-          ))}
-        </div>
-      </div>
+            <div className='board' >
+              {board?.map((item)=>(
+                      <img className='w-1/3' src={item.url} alt={`image ${item.id}`} />
+              ))}
 
-      <div className="w-1/3">
-        <div className="bg-yellow-200 p-4 rounded">
-          <h2 className="text-xl font-bold rounded">In Progress</h2>
-          {inProgressTasks.map((task) => (
-            <div key={task.id} className="bg-white p-2 m-2 font-serif rounded">
-              <p className="font-bold">{task.name}</p>
-              <p>belongs To : {task?.project?.name}{"  project"}</p>
-              <p>Start Date: {task?.startDate}</p>
-              <p>End Date: {task?.endDate}</p>
-              <p>
-              <button className='bg-yellow-600 text-white text-xs rounded mb-0 mt-4 px-6 py-2' onClick={()=>handleTransferToDone(task?.id)}>transfer</button>
-              </p>
-              </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="w-1/3">
-        <div className="bg-green-200 p-4 rounded ">
-          <h2 className="text-xl font-bold rounded">Done</h2>
-          {doneTasks.map((task) => (
-            <div key={task.id} className=" bg-white p-2 m-2 rounded font-serif text-gray-900">
-              <p className="font-bold">{task.name}</p>
-              <p>belongs To : {task?.project?.name}</p>
-              <p>Start Date: {task.startDate}</p>
-              <p>End Date: {task.endDate}</p>
-              <p className='mt-4'><span className='bg-green-600 text-white text-xs rounded mb-0 mt-4 px-6 py-2 font-serif font-bold'>pending to approval ....</span></p>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
+      </DndProvider>
+    
     </Layout>
-    </div>
+
   )
 }
 

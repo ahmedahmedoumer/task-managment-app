@@ -37,8 +37,8 @@ const Table = ({data,setDeleteItem,isUserListOpen,setIsUserListOpen,setSelectedT
                                             className='flex justify-center text-xs items-center h-8 w-8 rounded-full  bg-gray-800 text-white mr-2'/> }
                                        {item?.user?.firstName ??  bgColor.isNotAssigned}
                     </td>
-                    <td className="p-3 px-5">{dateFormat(item?.updatedAt,"fullDate")}</td>
-                    <td className="p-3 px-5">{dateFormat(item?.createdAt,"fullDate")}</td>
+                    <td className="p-3 px-5">{dateFormat(item?.endDate,"fullDate")}</td>
+                    <td className="p-3 px-5">{dateFormat(item?.startDate,"fullDate")}</td>
                     <td className="p-3 px-5">{bgColor?.[item?.taskStatus?.status] ?? bgColor?.undefined}</td>
                     <td  className="p-3 px-5 font-bold text-3xl relative">
                                    <MoreOutlined className='cursor-pointer' onClick={()=>{setIsDropDown(!isDropDown);setClickedRow(index)}}/>

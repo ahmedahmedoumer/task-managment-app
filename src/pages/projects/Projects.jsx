@@ -31,7 +31,7 @@ function Projects({projects,deleteProjectData,fetchProjectStatusData,addProjectD
               <div onClick={()=>setIsOpen(!isOpen)} className='flex justify-between gap-2 items-center bg-gradient-to-br from-gray-700 cursor-pointer to-gray-900 px-4 py-2 font-serif text-xl text-white rounded mt-20  '>
                           <PlusOutlined className=''/>create project</div></div>
 
-                  <div className='grid grid-cols-4 space-x-4 space-y-4 mt-5 mr-5'>
+                  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-x-4 space-y-4 mt-5 mr-5'>
                     {projects?.map((item,index)=>(
                         <CardComponent
                             key={index}
@@ -39,6 +39,7 @@ function Projects({projects,deleteProjectData,fetchProjectStatusData,addProjectD
                             deleteItem={deleteItem}
                             setDeleteItem={setDeleteItem}
                             editItem={editItem}
+                            id={item?.id}
                             setEditItem={setEditItem}
                             number={`Number Of Task ${projects[index]?.task?.length}`}
                             url={`/projects/${item?.id}`}

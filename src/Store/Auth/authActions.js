@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as authActionTypes from "./authActionTypes";
 import { URLst } from "../../utils/constants";
+import { ExceptionMap } from "antd/es/result";
 
 export const  loginRequest=()=>{
     return{
@@ -33,6 +34,8 @@ export const userLoginRequest=(formData)=>{
         }
     })
     .then(res=>{
+        // console.log(res,"ressssssssssssssss");
+        if(res?.data?.status != 404){
         console.log(res,"response");
         const userData=res.data;
         console.log(userData.data,"userData");
@@ -50,6 +53,11 @@ export const userLoginRequest=(formData)=>{
         localStorage.setItem("roleType",`${userData?.data?.role?.name}`);
         dispatch(loginSuccess(userData));
         window.location.href = '/dashboard';
+    }
+    else{
+          throw ExceptionMap()
+    }
+      
     })
     .catch(err=>{
         const error=err.message;

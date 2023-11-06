@@ -9,7 +9,7 @@ const PieChart = ({labelValue,dataValue}) => {
       datasets: [
         {
           data: dataValue, 
-          backgroundColor: ['red', 'blue', 'green'], 
+          backgroundColor: ['indigo', 'gray', 'violet'], 
         },
       ],
     };

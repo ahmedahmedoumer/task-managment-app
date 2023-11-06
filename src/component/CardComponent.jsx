@@ -2,11 +2,11 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
- const  CardComponent = ({ text,status, number,url, icon, startDate,setEditItem,setDeleteItem,endDate }) => {
+ const  CardComponent = ({ text,status, number,url, id,icon, startDate,setEditItem,setDeleteItem,endDate }) => {
 
   const handleDelete=(e)=>{
     e.preventDefault();
-    setDeleteItem(url);
+    setDeleteItem(id);
      
   }
   const handleEdit=()=>{
@@ -30,10 +30,7 @@ import { Link } from 'react-router-dom';
      {!icon &&(
      <div className='flex justify-between space-x-2 text-sm font-serif'>
         <div className='mt-5 font-bold '>
-          {status =='open'&&<span className='text-xl text-green-400'>{`Status ${status}`}</span>}
-          {status =='closed'&&<span className='text-xl text-green-800'>{`Status ${status}`}</span>}
-          {status =='inprogress'&&<span className='text-xl text-yellow-500'>{`Status ${status}`}</span>}
-
+            {textColor[status]}
          
         </div>
         <div>
@@ -45,8 +42,13 @@ import { Link } from 'react-router-dom';
     </Link>
   );
 };
+
 const textColor={
-  'open':<span></span>
+  'open':<span className='text-xl text-green-400'>open</span>,
+  'closed':<span className='text-xl text-green-900'>closed</span>,
+  'inprogress':<span className='text-xl text-yellow-500'>in progress</span>,
+  'undefined':<span className='text-xl text-blue-500'>in progress</span>
+
 }
 
 export default CardComponent;

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { DASHBOARD_SIDEBAR_LINKS } from "../utils/constants";
@@ -32,6 +32,10 @@ const Sidebar = () => {
 
 function SidebarLink({ item }) {
   const { pathname } = useLocation();
+  useEffect(() => {
+    document.body.className = 'bg-dark';
+    // localStorage.setItem('theme', theme);
+  }, []);
   return (
     <Link
       to={`/${item.path}`}

@@ -11,7 +11,7 @@ const TableData = ({ data,setTransferToDone,transferToDone,transferToInProgress,
                     <div className="px-6 py-3  text-xl text-gray-950 uppercase ">Done</div>
         </div>
         <div className='flex justify-between mt-5 mx-10 space-y-5'>
-               <div className='flex flex-col justify-start space-y-3'>
+               {/* <div className='flex flex-col justify-start space-y-3'>
                     {data?.map(item=>item?.taskStatus?.status=="to-do" &&
                             <div> 
                                 <div className='bg-yellow-200 px-10 py-6 rounded text-black flex flex-col space-y-2 '>
@@ -44,7 +44,7 @@ const TableData = ({ data,setTransferToDone,transferToDone,transferToInProgress,
                             </div>
 
                         )}
-                 </div>
+                 </div> */}
             </div>
     </div>
    

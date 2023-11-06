@@ -88,14 +88,15 @@ export const fetchProjectStatusData=()=>{
 export const addProjectData=(data,projects)=>{
     const token=localStorage.getItem('token');
     const projectName=data?.name;
-    const endDate=moment(data?.endDate).format('YYYY-MM-DD');
-    const startDate=moment(data?.startDate).format('YYYY-MM-DD');
+    const endDate=moment(data?.endDate?.$d).format("YYYY-MM-DD");
+    const startDate=moment(data?.startDate?.$d).format("YYYY-MM-DD");
+    const projectData={"name":projectName,"startDate":startDate,"endDate" : endDate,"status":"open"};
     return (dispatch)=>{
         dispatch(projectDataRequest());
     axios({
         method:"post",
         url:`${URLst}/project`,
-        data:{"name":projectName,"startDate":startDate,"endDate" :endDate,"status" : "inprogress"},
+        data:projectData,
         headers:{
             Authorization:`Bearer ${token}`
         }
@@ -184,9 +185,10 @@ export const getProjectById=(id)=>{
 export const addTaskToProject=(data,project)=>{
     const token=localStorage.getItem('token');
     const projectName=data?.name;
-    const endDdate=moment(data?.endDdate).format('YYYY-MM-DD');
-    const startDate=moment(data?.startDate).format('YYYY-MM-DD');
-    const projectData={"name":projectName,"startDate":startDate,"endDate" :endDdate,"projectId" : project?.id};
+    const endDate=moment(data?.endDate?.$d).format("YYYY-MM-DD");
+    const startDate=moment(data?.startDate?.$d).format("YYYY-MM-DD");
+    const projectData={"name":projectName,"startDate":startDate,"endDate" : endDate,"projectId" : project?.id};
+    console.log(projectData,"form data");
     return (dispatch)=>{
         dispatch(projectDataRequest());
     axios({
@@ -237,7 +239,6 @@ export const deleteTaskOnProject=(id,project)=>{
 export const taskAssignToUser=(assignTask,assignTo,project)=>{
     const token=localStorage.getItem('token');
     return (dispatch)=>{
-        // console.log("hello ahmedin");
         dispatch(projectDataRequest());
     axios({
         method:"post",
