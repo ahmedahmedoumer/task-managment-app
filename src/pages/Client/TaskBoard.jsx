@@ -42,7 +42,7 @@ const TaskBoard = ({ data,setTransferToDone,transferToDone,transferToInProgress,
   
   
   return (
-   {/* <div className="flex flex-row justify-center space-x-6 mt-20">
+    <div className="flex flex-row justify-center space-x-6 mt-20">
         <div className='flex bg-'></div>
       <div className="w-1/3">
         <div className="bg-blue-200 p-4 rounded">
@@ -95,7 +95,7 @@ const TaskBoard = ({ data,setTransferToDone,transferToDone,transferToInProgress,
           ))}
         </div>
       </div>
-    </div> */}
+    </div> 
 
   );
 };

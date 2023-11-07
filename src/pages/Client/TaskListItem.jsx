@@ -28,7 +28,7 @@ function TaskListItem({fetchAllTasks,taskList,error,loading}) {
     <Layout>
       <div className='mt-20'>
           <div className="flex ml-10">
-              <span className='border-2 flex space-x-2 border-gray-100 rounded active:border-blue-600 bg-white pl-3 '> 
+              <span className='border-2 flex items-center space-x-2 border-gray-100 rounded active:border-blue-600 bg-white pl-3 '> 
                      <SearchOutlined className='text-gray-600'/>
                                  <input type="text"  name="searchData" id="search" defaultValue={searchData} 
                                           onChange={(e)=>setFilteredTask(taskList?.filter(item =>
