@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from './ClientLayout';
 import { connect } from 'react-redux';
-import { fetchAllTaskData, fetchTasksById, taskTransferToInProgressByTodoId, transferToDoneByinProgressId } from '../../Store';
+import { fetchAllTaskData, fetchTasksById, taskTransferToInProgressByTodoId, taskTransferToTodo, transferToDoneByinProgressId } from '../../Store';
 import { useEffect } from 'react';
 import moment from 'moment';
 import { DndProvider,useDrop } from 'react-dnd';
@@ -9,15 +9,16 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Pictures from './Pictures';
 import { useDrag } from 'react-dnd/dist';
 import Tasks from './Tasks';
-
-function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransferToInProgressByTodoId,taskList,userTask,task,error,loading}) {
+import taskDetails from './taskDetails';
+function ClientTodo({fetchAllTasks,taskTransferToTodo,taskTransferToDoneByinProgressId,taskTransferToInProgressByTodoId,taskList,userTask,task,error,loading}) {
     
   const [draggedItem,setDraggedItem]=useState();   
   const [droppedImages, setDroppedImages] = useState([]);
   const [todo,setTodo]=useState([]);
   const [inProgress,setInProgress]=useState([]);
   const [done,setDone]=useState([]);
- 
+  const [taskDetail,setTaskDetail]=useState('');
+  const [visible,setVisible]=useState('');
   useEffect(() => {
     // Filter the userTask array into three separate arrays
     const todoTasks = userTask.filter((item) => item.taskStatus?.status === 'to-do');
@@ -87,6 +88,7 @@ function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransfer
           default:
             droppedImage.task.taskStatus.status='done';
             setDone((prevImages) => [droppedImage?.task, ...prevImages]);
+            taskTransferToDoneByinProgressId(droppedImage?.task?.id);
         }
   }
   const handleOnInTodo=(droppedImage)=>{
@@ -102,6 +104,7 @@ function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransfer
         default:
           droppedImage.task.taskStatus.status='to-do';
           setTodo((prevImages) => [droppedImage?.task, ...prevImages]);
+          taskTransferToTodo(droppedImage?.task?.id,taskList);
        }
   }
   const handleOnInProgress=(droppedImage)=>{
@@ -117,6 +120,7 @@ function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransfer
           default:
             droppedImage.task.taskStatus.status='in-progress';
             setInProgress((prevImages) => [droppedImage?.task, ...prevImages]);
+            taskTransferToInProgressByTodoId(droppedImage?.task?.id);
         }
     
   }
@@ -128,24 +132,13 @@ function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransfer
           <h2 className="text-xl font-bold rounded">Todo</h2>
           {todo?.map((task)=>(
                <Tasks 
-                onDrop={(item)=>handleOnInTodo(item)}
-                key={task?.id}
-                task={task}
-                text={"transfer"}
-                bgColor={"bg-indigo-600"}
+                    onDrop={(item)=>handleOnInTodo(item)}
+                    key={task?.id}
+                    task={task}
+                    setTaskDetail={setTaskDetail}
+                    setVisible={setVisible}
+                    visible={visible}
                />
-            // <div key={task.id} className="bg-white p-2 m-2 rounded font-serif">
-            // <p className="font-bold">{task.name}</p>
-            //   <p>belongs To : {task?.project?.name}</p>
-            //   <p>Start Date: {task?.startDate}</p>
-            //   <p>End Date: {task?.endDate}</p>
-            //   <p>{daysLeft(task?.endDate)}</p>
-
-              
-            //   <p>
-            //      <button className='bg-indigo-900 text-white text-xs rounded mb-0 mt-4 px-6 py-2' onClick={()=>handleTransferToInProgress(task?.id)}>transfer</button>
-            //   </p>
-            // </div>
           ))}
         </div>
       </div>
@@ -154,65 +147,38 @@ function ClientTodo({fetchAllTasks,taskTransferToDoneByinProgressId,taskTransfer
           <h2 className="text-xl font-bold rounded">In Progress</h2>
           {inProgress?.map((task)=>(
             <Tasks 
-            onDrop={(item)=>handleOnInProgress(item)}
-            key={task?.id}
-            task={task}
-            text={"transfer"}
-            bgColor={"bg-yellow-600"}
+                onDrop={(item)=>handleOnInProgress(item)}
+                key={task?.id}
+                task={task}
+                setTaskDetail={setTaskDetail}
+                setVisible={setVisible}
+                visible={visible}
            />
-            // <div key={task.id} className="bg-white p-2 m-2 font-serif rounded">
-            //   <p className="font-bold">{task.name}</p>
-            //   <p>belongs To : {task?.project?.name}{"  project"}</p>
-            //   <p>Start Date: {task?.startDate}</p>
-            //   <p>End Date: {task?.endDate}</p>
-            //   <p>
-            //   <button className='bg-yellow-600 text-white text-xs rounded mb-0 mt-4 px-6 py-2' onClick={()=>handleTransferToDone(task?.id)}>transfer</button>
-            //   </p>
-            //   </div>
           ))}
         </div>
       </div>
     <div className="w-1/3">
-        <div className="bg-green-200 px-2 rounded ">
+        <div className="bg-green-200 p-2 rounded ">
           <h2 className="text-xl font-bold rounded">Done</h2>
           {done?.map((task)=>(
                  <Tasks 
-                 onDrop={(item)=>handleOnPending(item)}
-                 key={task?.id}
-                 task={task}
-                 text={"pending to approval"}
-                 bgColor={"bg-green-600"}
+                      onDrop={(item)=>handleOnPending(item)}
+                      key={task?.id}
+                      task={task}
+                      setTaskDetail={setTaskDetail}
+                      setVisible={setVisible}
+                      visible={visible}
+
                 />
-            // <div key={task.id} className=" bg-white p-2 m-2 rounded font-serif text-gray-900">
-            //   <p className="font-bold">{task.name}</p>
-            //   <p>belongs To : {task?.project?.name}</p>
-            //   <p>Start Date: {task.startDate}</p>
-            //   <p>End Date: {task.endDate}</p>
-            //   <p className='mt-4'><span className='bg-green-600 text-white text-xs rounded mb-0 mt-4 px-6 py-2 font-serif font-bold'>pending to approval ....</span></p>
-            // </div>
           ))}
         </div>
       </div>
     </div>
-
-    {/* <div className='mt-40'>
-      <h2>Drag and Drop Images</h2>
-      <div className="image-container flex space-x-2 rounded ">
-        {imageSource.map((image) => (
-          <Pictures key={image.id} image={image} onDrop={handleDrop} />
-        ))}
-      </div>
-      <h3>Dropped Images</h3>
-      <div className="dropped-images grid grid-cols-3">
-        {droppedImages.map((droppedImage) => (
-          <img
-            key={droppedImage.id}
-            src={droppedImage.url}
-            alt={`Dropped Image ${droppedImage.id}`}
-          />
-        ))}
-      </div>
-    </div> */}
+    <taskDetails
+        visible={visible}
+        onClose={()=>{setVisible(false)}}
+        task={taskDetail}
+     />
     </Layout>
 
   )
@@ -232,6 +198,7 @@ export const mapStateToProps=(state)=>{
         fetchTasksById: () => dispatch(fetchTasksById()),
         taskTransferToDoneByinProgressId: (inprogressId,taskList) => dispatch(transferToDoneByinProgressId(inprogressId,taskList)),
         taskTransferToInProgressByTodoId: (todoId,taskList) => dispatch(taskTransferToInProgressByTodoId(todoId,taskList)),
+        taskTransferToTodo: (backlogId,taskList) => dispatch(taskTransferToTodo(backlogId,taskList)),
         fetchAllTasks: () => dispatch(fetchAllTaskData()),
     }
   }

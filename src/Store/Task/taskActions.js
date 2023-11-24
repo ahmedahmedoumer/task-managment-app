@@ -38,6 +38,12 @@ export const taskTransferToInProgressByTodoIdSuccess=(data)=>{
         payload:data,
     }
 }
+export const taskTransferToTodoSuccess=(data)=>{
+    return{
+        type:taskActionTypes.TASK_TRANSFER_TO_IN_PROGRESS,
+        payload:data,
+    }
+}
 
 
 export  const fetchTasksById=()=>{
@@ -133,6 +139,31 @@ export const taskTransferToInProgressByTodoId=(todoId,taskList)=>{
             const taskIndex= taskList.findIndex(item=>item.id === todoId);
             taskList[taskIndex]=data;
             dispatch(taskTransferToInProgressByTodoIdSuccess(taskList));
+        })
+        .catch(err=>{
+            const error=err.message;
+            dispatch(fetchTaskDataFailure(error));
+        })
+
+    }
+}
+export const taskTransferToTodo=(backlogId,taskList)=>{
+    const token=localStorage.getItem('token');
+    return (dispatch)=>{
+        console.log(taskList.filter(item=>item.id === todoId),"taskListt");
+        dispatch(fetchTaskDataRequest());
+        axios({
+            method:"post",
+            url:`${URLst}/in-progress/${backlogId}`,
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+        .then(res=>{
+            const data=res.data;
+            const taskIndex= taskList.findIndex(item=>item.id === todoId);
+            taskList[taskIndex]=data;
+            dispatch(taskTransferToTodoSuccess(taskList));
         })
         .catch(err=>{
             const error=err.message;
