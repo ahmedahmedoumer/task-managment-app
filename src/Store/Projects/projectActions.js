@@ -90,7 +90,7 @@ export const addProjectData=(data,projects)=>{
     const projectName=data?.name;
     const endDate=moment(data?.endDate?.$d).format("YYYY-MM-DD");
     const startDate=moment(data?.startDate?.$d).format("YYYY-MM-DD");
-    const projectData={"name":projectName,"startDate":startDate,"endDate" : endDate,"status":"open"};
+    const projectData={"name":projectName,"projectOwnerId":data?.projectOwner,"startDate":startDate,"endDate" : endDate,"status":"open"};
     return (dispatch)=>{
         dispatch(projectDataRequest());
     axios({

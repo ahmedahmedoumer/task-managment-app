@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button, DatePicker } from 'antd';
+import { Modal, Input, Button, DatePicker, Select } from 'antd';
 
-const CreateProject = ({open,onCancel, onSubmit,title }) => {
+const CreateProject = ({open,onCancel, onSubmit,title,users }) => {
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
+  const [projectOwner,setProjectOwner]=useState(null);
+  const optionArray=users?.map(user=>{return {value:user.id,label:user.firstName+"  " + user.lastName}})
   const handleOk = () => {
     const data = {
       name,
       startDate,
       endDate,
+      projectOwner,
     };
     onSubmit(data);
     setName('');
     setStartDate(null);
     setEndDate(null);
+    setProjectOwner(null);
   };
-
   return (
     <Modal
       title={title}
@@ -41,7 +43,18 @@ const CreateProject = ({open,onCancel, onSubmit,title }) => {
           placeholder="Name"
         />
       </div>
-
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
+      <Select
+        placeholder={"select user"}
+        defaultValue={projectOwner}
+        style={{
+          width: 470,
+        }}
+        onChange={(value)=>setProjectOwner(value)}
+        options={optionArray}
+      />
+      </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Start Date</label>
         <DatePicker
