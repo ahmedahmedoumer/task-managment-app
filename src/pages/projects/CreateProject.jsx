@@ -43,8 +43,9 @@ const CreateProject = ({open,onCancel, onSubmit,title,users }) => {
           placeholder="Name"
         />
       </div>
+      {title==="Create Project" && <>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">project Owner</label>
       <Select
         placeholder={"select user"}
         defaultValue={projectOwner}
@@ -54,7 +55,7 @@ const CreateProject = ({open,onCancel, onSubmit,title,users }) => {
         onChange={(value)=>setProjectOwner(value)}
         options={optionArray}
       />
-      </div>
+      </div></>}
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Start Date</label>
         <DatePicker
@@ -63,7 +64,7 @@ const CreateProject = ({open,onCancel, onSubmit,title,users }) => {
           style={{ width: '100%' }}
         />
       </div>
-
+      
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">End Date</label>
         <DatePicker
